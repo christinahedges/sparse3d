@@ -60,4 +60,3 @@ poetry install .
 * Update tests for ROISparse class, and add a notebook demonstration
   * Update the ROISparse class to ensure the outputs are 3D if dotted with a 1D array.
 * Implement a `fit` function?
-* Add tests for numpy functions
