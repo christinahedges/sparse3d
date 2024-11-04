@@ -3,7 +3,7 @@ name = "sparse3d"
 version = "1.0.0"
 description = ""
 authors = ["Christina Hedges <christina.l.hedges@nasa.gov>"]
-readme = "README.md"
+readme = "docs/README.md"
 packages = [{include = "sparse3d", from = "src"}]
 
 [tool.poetry.dependencies]

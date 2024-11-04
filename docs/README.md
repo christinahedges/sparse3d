@@ -38,6 +38,22 @@ Unfortunately `sparse` does not easily enable us to do this, as it only allows 2
 
 This small repository implements a way that we can hold the data corresponding to each of the sub images inside of a sparse array, by "unwrapping" the indices for the sub images and insetting them in the larger, sparse image.
 
+## Installation
+
+You can install with pip using
+
+```
+pip install sparse3d --upgrade
+```
+
+or you can clone this repo and install using
+
+```
+cd sparse3d/
+pip install poetry --upgrade
+poetry install .
+```
+
 ## To Do
 
 * Add an example using real data
