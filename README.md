@@ -39,6 +39,8 @@ This small repository implements a way that we can hold the data corresponding t
 
 ## To Do
 
-* Update tests for ROISparse class, and add a notebook demonstration
+* Finish the tutorials in docs/
 * Add an example using real data
+* Update tests for ROISparse class, and add a notebook demonstration
+  * Update the ROISparse class to ensure the outputs are 3D if dotted with a 1D array.
 * Create gh-pages
