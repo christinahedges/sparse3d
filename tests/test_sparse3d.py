@@ -9,7 +9,9 @@ from sparse3d import ROISparse3D, Sparse3D
 
 def test_sparse3d():
     R, C = np.meshgrid(
-        np.arange(20, 25).astype(int), np.arange(10, 16).astype(int), indexing="ij"
+        np.arange(20, 25).astype(int),
+        np.arange(10, 16).astype(int),
+        indexing="ij",
     )
     R = R[:, :, None] * np.ones(10, dtype=int)[None, None, :]
     C = C[:, :, None] * np.ones(10, dtype=int)[None, None, :]
@@ -90,7 +92,9 @@ def test_roisparse3d():
 @pytest.fixture
 def sw():
     R, C = np.meshgrid(
-        np.arange(20, 25).astype(int), np.arange(10, 16).astype(int), indexing="ij"
+        np.arange(20, 25).astype(int),
+        np.arange(10, 16).astype(int),
+        indexing="ij",
     )
     R = R[:, :, None] * np.ones(10, dtype=int)[None, None, :]
     C = C[:, :, None] * np.ones(10, dtype=int)[None, None, :]
@@ -112,7 +116,10 @@ def test_add(sw):
 
     # Add another Sparse3D with matching shape
     other = Sparse3D(
-        data=sw.subdata.copy(), row=sw.subrow, col=sw.subcol, imshape=sw.imshape
+        data=sw.subdata.copy(),
+        row=sw.subrow,
+        col=sw.subcol,
+        imshape=sw.imshape,
     )
     result = sw + other
     assert isinstance(result, Sparse3D)
@@ -148,7 +155,10 @@ def test_sub(sw):
 
     # Subtract another Sparse3D with matching shape
     other = Sparse3D(
-        data=sw.subdata.copy(), row=sw.subrow, col=sw.subcol, imshape=sw.imshape
+        data=sw.subdata.copy(),
+        row=sw.subrow,
+        col=sw.subcol,
+        imshape=sw.imshape,
     )
     result = sw - other
     assert isinstance(result, Sparse3D)
@@ -180,7 +190,10 @@ def test_mul(sw):
 
     # Multiply by another Sparse3D with matching shape
     other = Sparse3D(
-        data=sw.subdata.copy(), row=sw.subrow, col=sw.subcol, imshape=sw.imshape
+        data=sw.subdata.copy(),
+        row=sw.subrow,
+        col=sw.subcol,
+        imshape=sw.imshape,
     )
     assert isinstance(sw, Sparse3D)
     assert isinstance(other, Sparse3D)
@@ -214,7 +227,10 @@ def test_div(sw):
 
     # Divide by another Sparse3D with matching shape
     other = Sparse3D(
-        data=sw.subdata.copy(), row=sw.subrow, col=sw.subcol, imshape=sw.imshape
+        data=sw.subdata.copy(),
+        row=sw.subrow,
+        col=sw.subcol,
+        imshape=sw.imshape,
     )
     result = sw / other
     assert isinstance(result, Sparse3D)
@@ -246,7 +262,10 @@ def test_eq(sw):
 
     # Test equality with another Sparse3D with matching data
     other = Sparse3D(
-        data=sw.subdata.copy(), row=sw.subrow, col=sw.subcol, imshape=sw.imshape
+        data=sw.subdata.copy(),
+        row=sw.subrow,
+        col=sw.subcol,
+        imshape=sw.imshape,
     )
     result = sw == other
     assert isinstance(result, Sparse3D)
@@ -261,7 +280,9 @@ def test_ne(sw):
 
     # Test inequality with another Sparse3D with different data
     other_data = sw.subdata * 0.4  # Modify data to test inequality
-    other = Sparse3D(data=other_data, row=sw.subrow, col=sw.subcol, imshape=sw.imshape)
+    other = Sparse3D(
+        data=other_data, row=sw.subrow, col=sw.subcol, imshape=sw.imshape
+    )
     result = sw != other
     assert isinstance(result, Sparse3D)
     assert np.any(result.subdata)  # At least one element should be True
@@ -281,10 +302,92 @@ def test_abs(sw):
     assert np.all(result.subdata == np.abs(sw.subdata))
 
 
+def test_np_exp(sw):
+    result = np.exp(sw)
+    assert isinstance(result, Sparse3D), "Result should be a Sparse3D instance"
+    assert np.allclose(
+        result.data, np.exp(sw.data)
+    ), "Data should match np.exp result"
+
+
+def test_np_log(sw):
+    result = np.log(sw)
+    assert isinstance(result, Sparse3D), "Result should be a Sparse3D instance"
+    assert np.allclose(
+        result.data, np.log(sw.data)
+    ), "Data should match np.log result"
+
+
+def test_np_log10(sw):
+    result = np.log10(sw)
+    assert isinstance(result, Sparse3D), "Result should be a Sparse3D instance"
+    assert np.allclose(
+        result.data, np.log10(sw.data)
+    ), "Data should match np.log10 result"
+
+
+def test_np_cos(sw):
+    result = np.cos(sw)
+    assert isinstance(result, Sparse3D), "Result should be a Sparse3D instance"
+    assert np.allclose(
+        result.data, np.cos(sw.data)
+    ), "Data should match np.cos result"
+
+
+def test_np_sin(sw):
+    result = np.sin(sw)
+    assert isinstance(result, Sparse3D), "Result should be a Sparse3D instance"
+    assert np.allclose(
+        result.data, np.sin(sw.data)
+    ), "Data should match np.sin result"
+
+
+def test_np_sqrt(sw):
+    result = np.sqrt(sw)
+    assert isinstance(result, Sparse3D), "Result should be a Sparse3D instance"
+    assert np.allclose(
+        result.data, np.sqrt(sw.data)
+    ), "Data should match np.sqrt result"
+
+
+def test_np_tan(sw):
+    result = np.tan(sw)
+    assert isinstance(result, Sparse3D), "Result should be a Sparse3D instance"
+    assert np.allclose(
+        result.data, np.tan(sw.data)
+    ), "Data should match np.tan result"
+
+
+def test_np_sinh(sw):
+    result = np.sinh(sw)
+    assert isinstance(result, Sparse3D), "Result should be a Sparse3D instance"
+    assert np.allclose(
+        result.data, np.sinh(sw.data)
+    ), "Data should match np.sinh result"
+
+
+def test_np_cosh(sw):
+    result = np.cosh(sw)
+    assert isinstance(result, Sparse3D), "Result should be a Sparse3D instance"
+    assert np.allclose(
+        result.data, np.cosh(sw.data)
+    ), "Data should match np.cosh result"
+
+
+def test_np_tanh(sw):
+    result = np.tanh(sw)
+    assert isinstance(result, Sparse3D), "Result should be a Sparse3D instance"
+    assert np.allclose(
+        result.data, np.tanh(sw.data)
+    ), "Data should match np.tanh result"
+
+
 def test_slice_last_dimension(sw):
     # Test slicing with a single index in the last dimension
     sliced_sw = sw[:, :, 1]
-    assert isinstance(sliced_sw, Sparse3D), "Result should be a Sparse3D instance"
+    assert isinstance(
+        sliced_sw, Sparse3D
+    ), "Result should be a Sparse3D instance"
     assert sliced_sw.subdata.shape == (
         5,
         6,
@@ -296,7 +399,9 @@ def test_slice_last_dimension(sw):
 
     # Test slicing with a range in the last dimension
     sliced_sw = sw[:, :, 1:3]
-    assert isinstance(sliced_sw, Sparse3D), "Result should be a Sparse3D instance"
+    assert isinstance(
+        sliced_sw, Sparse3D
+    ), "Result should be a Sparse3D instance"
     assert sliced_sw.subdata.shape == (
         5,
         6,
@@ -321,8 +426,12 @@ def test_invalid_slices(sw):
     ):
         sw[:, 1, :]
 
-    with pytest.raises(IndexError, match="Indexing must be for three dimensions"):
+    with pytest.raises(
+        IndexError, match="Indexing must be for three dimensions"
+    ):
         sw[:, :]
 
-    with pytest.raises(IndexError, match="Indexing must be for three dimensions"):
+    with pytest.raises(
+        IndexError, match="Indexing must be for three dimensions"
+    ):
         sw[1]

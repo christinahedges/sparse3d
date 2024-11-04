@@ -1,10 +1,15 @@
+# Standard library
 from typing import TYPE_CHECKING
 
+# Third-party
 import numpy as np
 from scipy import sparse
 
 if TYPE_CHECKING:
-    from src.sparse3d import Sparse3D  # Replace with the actual path to Sparse3D
+    # First-party/Local
+    from src.sparse3d import (
+        Sparse3D,  # Replace with the actual path to Sparse3D
+    )
 
 
 class Sparse3DMathMixin:
@@ -49,7 +54,10 @@ class Sparse3DMathMixin:
                 )
             new_data = self.subdata % other.subdata
             return self.__class__(
-                data=new_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
 
         elif np.isscalar(other) | isinstance(other, np.ndarray):
@@ -58,7 +66,10 @@ class Sparse3DMathMixin:
             # Apply modulo operation to each non-zero element
             new_data = self.subdata % other
             return self.__class__(
-                data=new_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         else:
             return NotImplemented
@@ -94,12 +105,18 @@ class Sparse3DMathMixin:
             new_data = self.subdata == other.subdata
             self._check_other_matrix_is_same_shape(other)
             return self.__class__(
-                data=new_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             new_data = self.subdata == other
             return self.__class__(
-                data=new_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         else:
             return NotImplemented
@@ -130,12 +147,18 @@ class Sparse3DMathMixin:
             new_data = self.subdata != other.subdata
             self._check_other_matrix_is_same_shape(other)
             return self.__class__(
-                data=new_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             new_data = self.subdata != other
             return self.__class__(
-                data=new_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         else:
             return NotImplemented
@@ -167,12 +190,18 @@ class Sparse3DMathMixin:
             data = self.subdata + other.subdata
             self._check_other_matrix_is_same_shape(other)
             return self.__class__(
-                data=data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             data = self.subdata + other
             return self.__class__(
-                data=data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         else:
             return NotImplemented
@@ -204,12 +233,18 @@ class Sparse3DMathMixin:
             new_data = self.subdata * other.subdata
             self._check_other_matrix_is_same_shape(other)
             return self.__class__(
-                data=new_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             new_data = self.subdata * other
             return self.__class__(
-                data=new_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         else:
             return NotImplemented
@@ -262,7 +297,10 @@ class Sparse3DMathMixin:
                 )
             new_data = self.subdata / other.subdata
             return self.__class__(
-                data=new_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             if np.isscalar(other):
@@ -274,7 +312,10 @@ class Sparse3DMathMixin:
             # Divide each non-zero element by a scalar
             new_data = self.subdata / other
             return self.__class__(
-                data=new_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         else:
             return NotImplemented
@@ -284,7 +325,10 @@ class Sparse3DMathMixin:
             data = self.subdata - other.subdata
             self._check_other_matrix_is_same_shape(other)
             return self.__class__(
-                data=data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         else:
             return self.__add__(-other)
@@ -325,7 +369,10 @@ class Sparse3DMathMixin:
             # Subtract self.data from other, effectively computing `other - self`
             new_data = other - self.subdata
             return self.__class__(
-                data=new_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
             )
         return NotImplemented
 
@@ -369,9 +416,14 @@ class Sparse3DMathMixin:
         Sparse3D
             A new Sparse3D instance with all non-zero elements negated.
         """
-        negated_data = -self.subdata  # Negate all non-zero values in the data array
+        negated_data = (
+            -self.subdata
+        )  # Negate all non-zero values in the data array
         return self.__class__(
-            data=negated_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+            data=negated_data,
+            row=self.subrow,
+            col=self.subcol,
+            imshape=self.imshape,
         )
 
     def __abs__(self):
@@ -387,7 +439,10 @@ class Sparse3DMathMixin:
             self.subdata
         )  # Absolute value of all non-zero values in the data array
         return self.__class__(
-            data=abs_data, row=self.subrow, col=self.subcol, imshape=self.imshape
+            data=abs_data,
+            row=self.subrow,
+            col=self.subcol,
+            imshape=self.imshape,
         )
 
     def __array__(self, dtype=None):
@@ -406,21 +461,27 @@ class Sparse3DMathMixin:
 
     def __array_ufunc__(self, ufunc, method, *inputs, **kwargs):
         if method == "__call__":
-            if ufunc == np.exp:
-                # Apply the exponential function to non-zero data elements
+            ufunc_map = {
+                np.exp: np.exp,
+                np.log: np.log,
+                np.log10: np.log10,
+                np.cos: np.cos,
+                np.sin: np.sin,
+                np.sqrt: np.sqrt,
+                np.tan: np.tan,
+                np.arctan: np.arctan,
+                np.arcsin: np.arcsin,
+                np.arccos: np.arccos,
+                np.sinh: np.sinh,
+                np.cosh: np.cosh,
+                np.tanh: np.tanh,
+            }
+
+            if ufunc in ufunc_map:
                 new = self.copy()
-                new.data = np.exp(self.data, **kwargs)
-                new.subdata = np.exp(self.subdata, **kwargs)
-                return new
-            elif ufunc == np.log:
-                new = self.copy()
-                new.data = np.log(self.data, **kwargs)
-                new.subdata = np.log(self.subdata, **kwargs)
-                return new
-            elif ufunc == np.log10:
-                new = self.copy()
-                new.data = np.log10(self.data, **kwargs)
-                new.subdata = np.log10(self.subdata, **kwargs)
+                func = ufunc_map[ufunc]
+                new.data = func(self.data, **kwargs)
+                new.subdata = func(self.subdata, **kwargs)
                 return new
 
             for input_ in inputs:

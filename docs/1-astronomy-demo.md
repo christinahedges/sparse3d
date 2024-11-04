@@ -133,16 +133,16 @@ row3d[:, :, 0]
 
 
 
-    array([[131, 131, 131, 131, 131, 131, 131, 131, 131, 131],
-           [132, 132, 132, 132, 132, 132, 132, 132, 132, 132],
-           [133, 133, 133, 133, 133, 133, 133, 133, 133, 133],
-           [134, 134, 134, 134, 134, 134, 134, 134, 134, 134],
-           [135, 135, 135, 135, 135, 135, 135, 135, 135, 135],
-           [136, 136, 136, 136, 136, 136, 136, 136, 136, 136],
-           [137, 137, 137, 137, 137, 137, 137, 137, 137, 137],
-           [138, 138, 138, 138, 138, 138, 138, 138, 138, 138],
-           [139, 139, 139, 139, 139, 139, 139, 139, 139, 139],
-           [140, 140, 140, 140, 140, 140, 140, 140, 140, 140]])
+    array([[229, 229, 229, 229, 229, 229, 229, 229, 229, 229],
+           [230, 230, 230, 230, 230, 230, 230, 230, 230, 230],
+           [231, 231, 231, 231, 231, 231, 231, 231, 231, 231],
+           [232, 232, 232, 232, 232, 232, 232, 232, 232, 232],
+           [233, 233, 233, 233, 233, 233, 233, 233, 233, 233],
+           [234, 234, 234, 234, 234, 234, 234, 234, 234, 234],
+           [235, 235, 235, 235, 235, 235, 235, 235, 235, 235],
+           [236, 236, 236, 236, 236, 236, 236, 236, 236, 236],
+           [237, 237, 237, 237, 237, 237, 237, 237, 237, 237],
+           [238, 238, 238, 238, 238, 238, 238, 238, 238, 238]])
 
 
 
@@ -151,7 +151,7 @@ i.e. the row position for the first source.
 We need to build our model. Our model is given as
 
 $$
-f(x, y) = \frac{1}{2 \pi \sigma_x \sigma_y} \exp \left( -\frac{1}{2} \left( \frac{(x - \mu_x)^2}{\sigma_x^2} + \frac{(y - \mu_y)^2}{\sigma_y^2} \right) \right)
+f(x, y) = \frac{1}{2 \pi \sigma_x \sigma_y} \exp \left( -\frac{1}{2} \left( \frac{(\mathbf{X} - \mathbf{\mu_x})^2}{\sigma_x^2} + \frac{(\mathbf{Y} - \mathbf{\mu_y})^2}{\sigma_y^2} \right) \right)
 $$
 
 where $dx$ and $dy$ indicate the distance from the source position in x and y.
@@ -184,7 +184,15 @@ X
 
 
 ```python
-L = np.exp(-0.5*((X - source_row_phase)**2/sigma**2 + (Y - source_col_phase)**2/sigma**2)) * 1/(2*np.pi * sigma**2)
+mu_x = source_row_phase
+mu_y = source_col_phase
+```
+
+Here we will define L to be the 2D Gaussian representing the PSF of each source
+
+
+```python
+L = 1/(2*np.pi * sigma**2) * np.exp(-0.5*((X - mu_x)**2/sigma**2 + (Y - mu_y)**2/sigma**2))
 ```
 
 
@@ -203,14 +211,14 @@ L
 
 
 ```python
-model_image = l.dot(source_brightness)
+model_image = L.dot(source_brightness)
 ```
 
 If we plot this new model image, we see all the sources!
 
 
 ```python
-fig, ax = plt.subplots(figsize=(7, 7))
+fig, ax = plt.subplots(figsize=(6, 6))
 ax.imshow(model_image, vmin=0, vmax=10, origin='lower');
 ax.set(xlabel='Column', ylabel='Row', title='Model Image')
 ```
@@ -224,7 +232,7 @@ ax.set(xlabel='Column', ylabel='Row', title='Model Image')
 
 
     
-![png](1-astronomy-demo_files/1-astronomy-demo_30_1.png)
+![png](1-astronomy-demo_files/1-astronomy-demo_32_1.png)
     
 
 
@@ -269,7 +277,7 @@ Lc
 
 
     <1048576x50000 sparse matrix of type '<class 'numpy.float64'>'
-    	with 4975448 stored elements in Compressed Sparse Row format>
+    	with 4976958 stored elements in Compressed Sparse Row format>
 
 
 
@@ -283,8 +291,8 @@ We've converted it so we can use linear algebra functions. We can use simple lin
 best_fit_weights = sparse.linalg.spsolve(Lc.T.dot(Lc), sparse.csc_matrix(Lc.T.dot(fake_data.ravel())).T)
 ```
 
-    CPU times: user 1.29 s, sys: 32.6 ms, total: 1.32 s
-    Wall time: 1.32 s
+    CPU times: user 1.39 s, sys: 26.2 ms, total: 1.42 s
+    Wall time: 1.45 s
 
 
 
@@ -311,7 +319,7 @@ ax.set(yscale='log', xscale='log', xlabel='Truth', ylabel='Measured');
 
 
     
-![png](1-astronomy-demo_files/1-astronomy-demo_42_0.png)
+![png](1-astronomy-demo_files/1-astronomy-demo_44_0.png)
     
 
 
@@ -348,12 +356,17 @@ l = np.exp(dX1 + dY1) * (1/(2*np.pi * sigma**2))
 
 
 ```python
-plt.figure(figsize=(10, 10))
+plt.figure(figsize=(7, 7))
 plt.imshow(l.dot(source_brightness), vmin=0, vmax=10);
 ```
 
 
     
-![png](1-astronomy-demo_files/1-astronomy-demo_48_0.png)
+![png](1-astronomy-demo_files/1-astronomy-demo_50_0.png)
     
 
+
+
+```python
+
+```
