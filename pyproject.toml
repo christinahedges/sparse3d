@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "sparse3d"
+version = "1.0.0"
+description = ""
+authors = ["Christina Hedges <christina.l.hedges@nasa.gov>"]
+readme = "README.md"
+packages = [{include = "sparse3d", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+scipy = ">=1.10"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+flake8 = "^7.1.1"
+black = "^24.10.0"
+isort = "^5.13.2"
+jupyterlab = "^4.3.0"
+matplotlib = "^3.9.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
