@@ -22,3 +22,10 @@ black:
 # Order the imports using `isort`
 isort:
 	$(CMD) isort $(PYMODULE) $(TESTS)
+
+# Serve docs
+serve:
+	$(CMD) mkdocs serve
+
+deploy:
+	$(CMD) mkdocs gh-deploy --force

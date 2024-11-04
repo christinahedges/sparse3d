@@ -1,0 +1,34 @@
+site_name: sparse3d
+nav:
+  - Home: README.md
+  - Start Here: 0-start-here.md
+  - Astronomy Demo: 1-astronomy-demo.md
+  - API:
+    - Sparse3D API: sparse3d.md
+    - ROISparse3D API: roisparse3d.md
+  
+
+theme:
+  name: "material"
+  icon:
+    logo: material/cube
+repo_url: https://github.com/christinahedges/sparse3d
+plugins:
+  - search
+  - include-markdown
+  - mkdocstrings:
+      watch:
+        - src/sparse3d
+      default_handler: python      
+      handlers:
+        python:
+          options:
+            show_source: true
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - tables
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
