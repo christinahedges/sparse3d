@@ -1,3 +1,6 @@
+<a href="https://github.com/pandoramission/pandora-sat/actions/workflows/pytest.yml"><img src="https://github.com/pandoramission/pandora-sat/workflows/pytest/badge.svg" alt="Test status"/></a>
+<a href="https://github.com/pandoramission/pandora-sat/actions/workflows/lint.yml"><img src="https://github.com/pandoramission/pandora-sat/workflows/lint/badge.svg" alt="Lint status"/></a>
+
 # `sparse3d`
 
 This package contains implimentations of a class for working with data that looks like a **single large sparse image** containing small regions of **dense data**. Really, this is designed for working with astronomical images.
@@ -33,3 +36,9 @@ Because of this, it is efficient for us to take this image and cast it into a sp
 Unfortunately `sparse` does not easily enable us to do this, as it only allows 2D arrays.
 
 This small repository implements a way that we can hold the data corresponding to each of the sub images inside of a sparse array, by "unwrapping" the indices for the sub images and insetting them in the larger, sparse image.
+
+## To Do
+
+* Update tests for ROISparse class, and add a notebook demonstration
+* Add an example using real data
+* Create gh-pages
