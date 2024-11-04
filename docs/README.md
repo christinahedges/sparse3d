@@ -1,5 +1,6 @@
 <a href="https://github.com/christinahedges/sparse3d/actions/workflows/pytest.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/pytest/badge.svg" alt="Test status"/></a>
 <a href="https://github.com/christinahedges/sparse3d/actions/workflows/lint.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/lint/badge.svg" alt="Lint status"/></a>
+[![Documentation badge](https://img.shields.io/badge/documentation-live-blue.svg)](https://christinahedges.github.io/sparse3d/)
 
 # `sparse3d`
 
