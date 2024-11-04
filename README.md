@@ -1,5 +1,5 @@
-<a href="https://github.com/pandoramission/pandora-sat/actions/workflows/pytest.yml"><img src="https://github.com/pandoramission/pandora-sat/workflows/pytest/badge.svg" alt="Test status"/></a>
-<a href="https://github.com/pandoramission/pandora-sat/actions/workflows/lint.yml"><img src="https://github.com/pandoramission/pandora-sat/workflows/lint/badge.svg" alt="Lint status"/></a>
+<a href="https://github.com/christinahedges/sparse3d/actions/workflows/pytest.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/pytest/badge.svg" alt="Test status"/></a>
+<a href="https://github.com/christinahedges/sparse3d/actions/workflows/lint.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/lint/badge.svg" alt="Lint status"/></a>
 
 # `sparse3d`
 
