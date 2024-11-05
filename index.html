@@ -270,6 +270,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#to-do" class="md-nav__link">
     <span class="md-ellipsis">
       To Do
@@ -446,6 +455,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#to-do" class="md-nav__link">
     <span class="md-ellipsis">
       To Do
@@ -473,7 +491,9 @@
 
 
 <p><a href="https://github.com/christinahedges/sparse3d/actions/workflows/pytest.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/pytest/badge.svg" alt="Test status"/></a>
-<a href="https://github.com/christinahedges/sparse3d/actions/workflows/lint.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/lint/badge.svg" alt="Lint status"/></a></p>
+<a href="https://github.com/christinahedges/sparse3d/actions/workflows/lint.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/lint/badge.svg" alt="Lint status"/></a>
+<a href="https://christinahedges.github.io/sparse3d/"><img alt="Documentation badge" src="https://img.shields.io/badge/documentation-live-blue.svg" /></a>
+<img alt="PyPI Version" src="https://img.shields.io/pypi/v/sparse3d" /></p>
 <h1 id="sparse3d"><code>sparse3d</code></h1>
 <p>This package contains implimentations of a class for working with data that looks like a <strong>single large sparse image</strong> containing small regions of <strong>dense data</strong>. Really, this is designed for working with astronomical images.</p>
 <h2 id="what-is-sparse3d">What is <code>sparse3D</code>?</h2>
@@ -500,6 +520,15 @@
 <p>Because of this, it is efficient for us to take this image and cast it into a sparse representation using <a href="https://scipy.org/"><code>scipy</code>'s</a> <code>sparse</code> library.</p>
 <p>Unfortunately <code>sparse</code> does not easily enable us to do this, as it only allows 2D arrays.</p>
 <p>This small repository implements a way that we can hold the data corresponding to each of the sub images inside of a sparse array, by "unwrapping" the indices for the sub images and insetting them in the larger, sparse image.</p>
+<h2 id="installation">Installation</h2>
+<p>You can install with pip using</p>
+<pre><code>pip install sparse3d --upgrade
+</code></pre>
+<p>or you can clone this repo and install using</p>
+<pre><code>cd sparse3d/
+pip install poetry --upgrade
+poetry install .
+</code></pre>
 <h2 id="to-do">To Do</h2>
 <ul>
 <li>Add an example using real data</li>
