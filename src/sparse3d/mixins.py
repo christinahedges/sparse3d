@@ -80,6 +80,170 @@ class Sparse3DMathMixin:
             "Modulo of a scalar with a Sparse3D is not implemented."
         )
 
+    def __ge__(self, other: "Sparse3D") -> "Sparse3D":
+        """
+        Element-wise >= comparison between this Sparse3D instance and another object.
+
+        Parameters
+        ----------
+        other : Sparse3D, scalar, or ndarray
+            The object to compare to this Sparse3D instance. If `other` is a Sparse3D,
+            it must have the same shape and non-zero structure. If `other` is a scalar,
+            each element in `self.data` is compared to `other`.
+
+        Returns
+        -------
+        Sparse3D
+            A Sparse3D instance with boolean data representing where elements are equal.
+
+        Raises
+        ------
+        ValueError
+            If `other` is a Sparse3D instance but does not match in shape.
+        """
+        if isinstance(other, self.__class__):
+            new_data = self.subdata > other.subdata
+            self._check_other_matrix_is_same_shape(other)
+            return self.__class__(
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
+            )
+        elif np.isscalar(other) | isinstance(other, np.ndarray):
+            new_data = self.subdata > other
+            return self.__class__(
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
+            )
+        else:
+            return NotImplemented
+
+    def __gt__(self, other: "Sparse3D") -> "Sparse3D":
+        """
+        Element-wise > comparison between this Sparse3D instance and another object.
+
+        Parameters
+        ----------
+        other : Sparse3D, scalar, or ndarray
+            The object to compare to this Sparse3D instance. If `other` is a Sparse3D,
+            it must have the same shape and non-zero structure. If `other` is a scalar,
+            each element in `self.data` is compared to `other`.
+
+        Returns
+        -------
+        Sparse3D
+            A Sparse3D instance with boolean data representing where elements are equal.
+
+        Raises
+        ------
+        ValueError
+            If `other` is a Sparse3D instance but does not match in shape.
+        """
+        if isinstance(other, self.__class__):
+            new_data = self.subdata > other.subdata
+            self._check_other_matrix_is_same_shape(other)
+            return self.__class__(
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
+            )
+        elif np.isscalar(other) | isinstance(other, np.ndarray):
+            new_data = self.subdata > other
+            return self.__class__(
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
+            )
+        else:
+            return NotImplemented
+
+    def __le__(self, other: "Sparse3D") -> "Sparse3D":
+        """
+        Element-wise <= comparison between this Sparse3D instance and another object.
+
+        Parameters
+        ----------
+        other : Sparse3D, scalar, or ndarray
+            The object to compare to this Sparse3D instance. If `other` is a Sparse3D,
+            it must have the same shape and non-zero structure. If `other` is a scalar,
+            each element in `self.data` is compared to `other`.
+
+        Returns
+        -------
+        Sparse3D
+            A Sparse3D instance with boolean data representing where elements are equal.
+
+        Raises
+        ------
+        ValueError
+            If `other` is a Sparse3D instance but does not match in shape.
+        """
+        if isinstance(other, self.__class__):
+            new_data = self.subdata <= other.subdata
+            self._check_other_matrix_is_same_shape(other)
+            return self.__class__(
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
+            )
+        elif np.isscalar(other) | isinstance(other, np.ndarray):
+            new_data = self.subdata <= other
+            return self.__class__(
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
+            )
+        else:
+            return NotImplemented
+
+    def __lt__(self, other: "Sparse3D") -> "Sparse3D":
+        """
+        Element-wise < comparison between this Sparse3D instance and another object.
+
+        Parameters
+        ----------
+        other : Sparse3D, scalar, or ndarray
+            The object to compare to this Sparse3D instance. If `other` is a Sparse3D,
+            it must have the same shape and non-zero structure. If `other` is a scalar,
+            each element in `self.data` is compared to `other`.
+
+        Returns
+        -------
+        Sparse3D
+            A Sparse3D instance with boolean data representing where elements are equal.
+
+        Raises
+        ------
+        ValueError
+            If `other` is a Sparse3D instance but does not match in shape.
+        """
+        if isinstance(other, self.__class__):
+            new_data = self.subdata < other.subdata
+            self._check_other_matrix_is_same_shape(other)
+            return self.__class__(
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
+            )
+        elif np.isscalar(other) | isinstance(other, np.ndarray):
+            new_data = self.subdata < other
+            return self.__class__(
+                data=new_data,
+                row=self.subrow,
+                col=self.subcol,
+                imshape=self.imshape,
+            )
+        else:
+            return NotImplemented
+
     def __eq__(self, other: "Sparse3D") -> "Sparse3D":
         """
         Element-wise equality comparison between this Sparse3D instance and another object.

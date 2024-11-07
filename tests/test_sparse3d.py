@@ -288,6 +288,34 @@ def test_ne(sw):
     assert np.any(result.subdata)  # At least one element should be True
 
 
+def test_le(sw):
+    # Test inequality with scalar
+    result = sw <= 2
+    assert isinstance(result, Sparse3D)
+    assert np.all(result.subdata == (sw.subdata <= 2))
+
+
+def test_lt(sw):
+    # Test inequality with scalar
+    result = sw < 2
+    assert isinstance(result, Sparse3D)
+    assert np.all(result.subdata == (sw.subdata < 2))
+
+
+def test_ge(sw):
+    # Test inequality with scalar
+    result = sw >= 2
+    assert isinstance(result, Sparse3D)
+    assert np.all(result.subdata == (sw.subdata >= 2))
+
+
+def test_gt(sw):
+    # Test inequality with scalar
+    result = sw > 2
+    assert isinstance(result, Sparse3D)
+    assert np.all(result.subdata == (sw.subdata > 2))
+
+
 def test_neg(sw):
     # Test negation
     result = -sw
