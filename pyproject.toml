@@ -15,7 +15,7 @@ optional = true
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
 flake8 = "^7.1.1"
-black = "^24.10.0"
+black = "^25.1.0"
 isort = "^5.13.2"
 jupyterlab = "^4.3.0"
 matplotlib = "^3.9.2"
