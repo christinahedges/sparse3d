@@ -102,14 +102,18 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
 
         # In order to simulate the data being three dimensional, we unwrap the 3D indicies into 2D
         # (row, column) -> row position within the sparse array.
-        index0 = (np.vstack(self.subrow)) * self.imshape[1] + (np.vstack(self.subcol))
+        index0 = (np.vstack(self.subrow)) * self.imshape[1] + (
+            np.vstack(self.subcol)
+        )
         # (nsubimage) -> column position in the sparse array.
         index1 = np.vstack(self.subdepth).ravel()
 
         # We will reuse this when we reset the data so we store it once.
         self._index_no_offset = np.vstack([index0.ravel(), index1.ravel()])
         # This mask represents where the input data is within bounds of self.imshape.
-        self._submask_no_offset = np.vstack(self._get_submask(offset=(0, 0))).ravel()
+        self._submask_no_offset = np.vstack(
+            self._get_submask(offset=(0, 0))
+        ).ravel()
 
         # We use these to calculate translations, so we calculate them once.
         self._subrow_v = deepcopy(np.vstack(self.subrow).ravel())
@@ -120,13 +124,13 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         self._set_data()
 
     def __repr__(self):
-        return (
-            f"<{(*self.imshape, self.nsubimages)} Sparse3D array of type {self.dtype}>"
-        )
+        return f"<{(*self.imshape, self.nsubimages)} Sparse3D array of type {self.dtype}>"
 
     def tocoo(self):
         """Returns a COO matrix built from this Sparse3D instance."""
-        return sparse.coo_matrix((self.data, (self.row, self.col)), shape=self.cooshape)
+        return sparse.coo_matrix(
+            (self.data, (self.row, self.col)), shape=self.cooshape
+        )
 
     def copy(self):
         """Returns a deepcopy of self."""
@@ -155,7 +159,9 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         """
         # Check if the index is a tuple and has three elements (for 3D slicing)
         if not isinstance(index, tuple) or len(index) != 3:
-            raise IndexError("Indexing must be for three dimensions (e.g., [:, :, 0]).")
+            raise IndexError(
+                "Indexing must be for three dimensions (e.g., [:, :, 0])."
+            )
 
         # Ensure the first two indices are full slices
         if index[0] != slice(None) or index[1] != slice(None):
@@ -225,7 +231,10 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         else:
             nt = other.shape[1]
             result = (
-                super().dot(other).reshape((*self.imshape, nt)).transpose([2, 0, 1])
+                super()
+                .dot(other)
+                .reshape((*self.imshape, nt))
+                .transpose([2, 0, 1])
             )
         return result
 
@@ -455,7 +464,10 @@ class ROISparse3D(Sparse3D):
                 rmin, cmin = ROI_corners[roi]
                 rmax, cmax = rmin + ROI_size[0], cmin + ROI_size[1]
                 mask.append(
-                    (row >= rmin) & (row < rmax) & (column >= cmin) & (column < cmax)
+                    (row >= rmin)
+                    & (row < rmax)
+                    & (column >= cmin)
+                    & (column < cmax)
                 )
             return np.asarray(mask)
 
@@ -508,7 +520,9 @@ class ROISparse3D(Sparse3D):
             if other.shape[1] == self.nsubimages:
                 other = other.T
             else:
-                raise ValueError(f"Must pass {(self.nsubimages, 1)} shape object.")
+                raise ValueError(
+                    f"Must pass {(self.nsubimages, 1)} shape object."
+                )
         sparse_array = super().tocsr().dot(other)
 
         R, C = np.meshgrid(
