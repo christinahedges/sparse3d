@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sparse3d"
-version = "1.0.2"
+version = "1.0.3"
 description = ""
 authors = ["Christina Hedges <christina.l.hedges@nasa.gov>"]
 packages = [{include = "sparse3d", from = "src"}]
@@ -24,12 +24,14 @@ matplotlib = "^3.9.2"
 optional = true
 
 [tool.poetry.group.website.dependencies]
-mkdocs-include-markdown-plugin = "^6.0.6"
-mkdocs-material = "^9.5.23"
-mkdocstrings = {version="^0.25.1", extras=["crystal", "python"]}
-mkdocs = "^1.6.0"
-pytkdocs = {version = "^0.16.1", extras = ["numpy-style"]}
-
+mkdocs = "^1.6.1"
+mkdocs-jupyter = "^0.25.1"
+mkdocs-material = "^9.6.5"
+pytkdocs = {version = "^0.16.2", extras = ["numpy-style"]}
+mkdocs-include-markdown-plugin = "^7.1.4"
+mkdocstrings = {version = "^0.28.2", extras = ["python"]}
+jupyter-contrib-nbextensions = "^0.7.0"
+notebook = ">=6.0.0,<7.0.0"
 
 
 [build-system]
