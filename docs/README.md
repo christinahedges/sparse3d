@@ -1,5 +1,5 @@
-<a href="https://github.com/christinahedges/sparse3d/actions/workflows/pytest.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/pytest/badge.svg" alt="Test status"/></a>
-<a href="https://github.com/christinahedges/sparse3d/actions/workflows/lint.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/lint/badge.svg" alt="Lint status"/></a>
+<a href="https://github.com/christinahedges/sparse3d/actions/workflows/tests.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/tests/badge.svg" alt="Test status"/></a>
+<a href="https://github.com/christinahedges/sparse3d/actions/workflows/black.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/black/badge.svg" alt="Lint status"/></a> <a href="https://github.com/christinahedges/sparse3d/actions/workflows/flake8.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/flake8/badge.svg" alt="Lint status"/></a>
 [![Documentation badge](https://img.shields.io/badge/documentation-live-blue.svg)](https://christinahedges.github.io/sparse3d/)
 ![PyPI Version](https://img.shields.io/pypi/v/sparse3d)
 
