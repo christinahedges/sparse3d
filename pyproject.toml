@@ -18,7 +18,7 @@ flake8 = "^7.1.1"
 black = "^24.10.0"
 isort = "^5.13.2"
 jupyterlab = "^4.3.0"
-matplotlib = "^3.9.2"
+matplotlib = "^3.9.4"
 
 [tool.poetry.group.website]
 optional = true
