@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it using the metadata below.
+title: "Sparse3d: A Python package efficiently modeling and fitting astronomy data."
+version: "1.0.3"
+date-released: 2025-02-27
+authors:
+  - family-names: Hedges
+    given-names: Christina
+    orcid: "https://orcid.org/0000-0002-3385-8391"
+repository-code: "https://github.com/christinahedges/sparse3d"
+license: "MIT"
