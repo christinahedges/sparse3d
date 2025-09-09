@@ -5,7 +5,7 @@
 
 # `sparse3d`
 
-This package contains implimentations of a class for working with data that looks like a **single large sparse image** containing small regions of **dense data**. Really, this is designed for working with astronomical images.
+This package contains implimentations of a class for working with data that looks like a **single large sparse image** containing small regions of **dense data**. This is designed for working with astronomical images where we often have many small dense images (e.g. stars) set into a sparse frame (e.g. a large astronomical image).
 
 ## What is `sparse3D`?
 
