@@ -8,5 +8,6 @@ authors:
   - family-names: Hedges
     given-names: Christina
     orcid: "https://orcid.org/0000-0002-3385-8391"
+doi: "10.5281/zenodo.17088544"
 repository-code: "https://github.com/christinahedges/sparse3d"
 license: "MIT"

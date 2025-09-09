@@ -2,14 +2,15 @@
 <a href="https://github.com/christinahedges/sparse3d/actions/workflows/black.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/black/badge.svg" alt="Lint status"/></a> <a href="https://github.com/christinahedges/sparse3d/actions/workflows/flake8.yml"><img src="https://github.com/christinahedges/sparse3d/workflows/flake8/badge.svg" alt="Lint status"/></a>
 [![Documentation badge](https://img.shields.io/badge/documentation-live-blue.svg)](https://christinahedges.github.io/sparse3d/)
 ![PyPI Version](https://img.shields.io/pypi/v/sparse3d)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17088544.svg)](https://doi.org/10.5281/zenodo.17088544)
 
 # `sparse3d`
 
-This package contains implimentations of a class for working with data that looks like a **single large sparse image** containing small regions of **dense data**. This is designed for working with astronomical images where we often have many small dense images (e.g. stars) set into a sparse frame (e.g. a large astronomical image).
+This package contains implementations of a class for working with data that looks like a **single large sparse image** containing small regions of **dense data**. This is designed for working with astronomical images where we often have many small dense images (e.g. stars) set into a sparse frame (e.g. a large astronomical image).
 
 ## What is `sparse3D`?
 
-We often have large images in astronomy that might look like the sketch below. In this sketch we have a large, sparse image with 4 dense regions; A, B, C, and D. In astronomy we have this situation often, where we have small images of point like stars spread over large images.
+We often have large images in astronomy that might look like the sketch below. In this sketch we have a large, sparse image with 4 dense regions; A, B, C, and D. In astronomy we have this situation often, where we have small images of point-like stars spread over large images.
 
 ```
 +-------------------------------------+
@@ -37,7 +38,7 @@ Because of this, it is efficient for us to take this image and cast it into a sp
 
 Unfortunately `sparse` does not easily enable us to do this, as it only allows 2D arrays.
 
-This small repository implements a way that we can hold the data corresponding to each of the sub images inside of a sparse array, by "unwrapping" the indices for the sub images and insetting them in the larger, sparse image.
+This small repository implements a way that we can hold the data corresponding to each of the sub-images inside of a sparse array, by "unwrapping" the indices for the sub-images and insetting them in the larger, sparse image.
 
 ## Installation
 
@@ -52,5 +53,5 @@ or you can clone this repo and install using
 ```
 cd sparse3d/
 pip install poetry --upgrade
-poetry install .
+poetry install
 ```
