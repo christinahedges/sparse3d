@@ -6,7 +6,6 @@ tags:
 authors:
   - name: Christina Hedges
     orcid: 0000-0002-3385-8391
-    equal-contrib: true
     affiliation: "1, 2"
 
 affiliations:
@@ -32,7 +31,7 @@ We can model these images as a simple linear model such as
 
 $$f = A \cdot w$$
 
-where $A$ is a design matrix consisting of a stack of images. If we have a detector with 2048 x 2048 pixels containing 1000 stars then A has shape (2048, 2048, 10000). The vector of weights $w$ contains the brightness of each star and has length (10000). Building $A$ as a dense matrix to describe the scene is expensive. Instead, we capitalize on the fact that each image is only valued very close to each star and embed dense sub images inside a larger, sparse image.
+where $A$ is a design matrix consisting of a stack of images. If we have a detector with 2048 x 2048 pixels containing 10,000 stars then A has shape (2048, 2048, 10000). The vector of weights $w$ contains the brightness of each star and has length (10000). Building $A$ as a dense matrix to describe the scene is expensive. Instead, we capitalize on the fact that each image is only valued very close to each star and embed dense sub images inside a larger, sparse image.
 
 `sparse3d` provides
 
@@ -62,7 +61,8 @@ subimage_size = 10
 R, C = np.mgrid[:subimage_size, :subimage_size] - subimage_size//2
 
 # Simulated source properties
-source_brightness, source_row, source_col = 10**np.random.normal(0, 1.5, size=nsources), *np.random.uniform(0, 1024, size=(nsources, 2)).T
+source_brightness, source_row, source_col = 
+ 10**np.random.normal(0, 1.5, size=nsources), *np.random.uniform(0, 1024, size=(nsources, 2)).T
 
 # Pixel phase for each source
 mu_x, mu_y = source_row % 1, source_col % 1
