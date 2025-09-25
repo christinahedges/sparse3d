@@ -89,6 +89,19 @@ def test_roisparse3d():
     assert sw.tocsr().dot(np.ones(20)).sum() != 0
 
 
+def test_multiply():
+    R, C = np.meshgrid(
+        np.arange(20, 25).astype(int),
+        np.arange(10, 16).astype(int),
+        indexing="ij",
+    )
+    R = R[:, :, None] * np.ones(10, dtype=int)[None, None, :]
+    C = C[:, :, None] * np.ones(10, dtype=int)[None, None, :]
+    data = np.ones_like(R).astype(float)
+    sw = Sparse3D(data, R, C, (50, 50))
+    sw.multiply(10)
+
+
 @pytest.fixture
 def sw():
     R, C = np.meshgrid(
