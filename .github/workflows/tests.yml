@@ -3,25 +3,91 @@ name: tests
 on: [push, pull_request]
 
 jobs:
-  build:
+  # 1) Build a dynamic matrix of (python, scipy) pairs
+  build-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.gen.outputs.matrix }}
+    steps:
+      - id: gen
+        shell: bash
+        run: |
+          PYTHONS='["3.9","3.10","3.11","3.12"]'
+          python - <<'PY' | tee matrix.json
+import json, sys, urllib.request
+from packaging.version import Version, InvalidVersion
 
+PYTHONS = json.loads("""$PYTHONS""")
+
+# Fetch SciPy releases
+with urllib.request.urlopen("https://pypi.org/pypi/scipy/json") as r:
+    data = json.load(r)
+
+releases = data["releases"]
+
+# Keep latest patch for each minor >= 1.10, exclude pre-releases/yanked
+latest_per_minor = {}
+for sver, files in releases.items():
+    try:
+        v = Version(sver)
+    except InvalidVersion:
+        continue
+    if v.is_prerelease or v < Version("1.10"):
+        continue
+    # Skip fully yanked (rare, but safe)
+    if all(f.get("yanked", False) for f in files):
+        continue
+    key = (v.major, v.minor)
+    if key not in latest_per_minor or v > latest_per_minor[key]:
+        latest_per_minor[key] = v
+
+# For each python version, keep only scipy versions that have wheels for that Python
+def py_tag(py):
+    # "3.10" -> "cp310", etc.
+    maj, minr = py.split(".")
+    return f"cp{maj}{minr}"
+
+matrix = {"include": []}
+for py in PYTHONS:
+    tag = py_tag(py)
+    for v in sorted(latest_per_minor.values()):
+        files = releases[str(v)]
+        has_wheel_for_py = any(
+            f["filename"].endswith(".whl") and tag in f["filename"]
+            for f in files
+        )
+        if has_wheel_for_py:
+            matrix["include"].append({"python": py, "scipy": str(v)})
+
+json.dump(matrix, sys.stdout)
+PY
+          echo "matrix=$(cat matrix.json)" >> "$GITHUB_OUTPUT"
+
+  # 2) Test job uses the dynamic matrix
+  build:
+    needs: build-matrix
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
-
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.build-matrix.outputs.matrix) }}
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
+      - uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install poetry
-        poetry install --with dev
-    - name: Test with pytest
-      run: |
-        make pytest
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install dependencies (Poetry) and pin SciPy ${{ matrix.scipy }}
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install poetry
+          poetry env use ${{ matrix.python }}
+          # Install your project + dev deps
+          poetry install --with dev
+          # Pin SciPy for this job (overrides lock)
+          poetry run pip install "scipy==${{ matrix.scipy }}"
+
+      - name: Run tests
+        run: |
+          poetry run make pytest
