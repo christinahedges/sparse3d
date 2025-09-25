@@ -1,4 +1,4 @@
-.PHONY: all clean pytest coverage flake8 black mypy isort
+.PHONY: all clean pytest coverage flake8 black mypy isort scipymatrix
 
 CMD:=poetry run
 PYMODULE:=src
@@ -29,3 +29,9 @@ serve:
 
 deploy:
 	$(CMD) mkdocs gh-deploy --force
+
+scipymatrix:
+	python -m pip install --upgrade pip >/dev/null
+	python -m pip install packaging >/dev/null
+	PYTHONS='["3.9","3.10","3.11","3.12"]' python scripts/gen_scipy_matrix.py > matrix.json
+	@echo "Wrote matrix.json"
