@@ -23,6 +23,7 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         row: np.ndarray,
         col: np.ndarray,
         imshape: Tuple[int, int],
+        **kwargs,
     ) -> None:
         """
         Initialize a Sparse3D instance with 3D dense data.
