@@ -99,7 +99,8 @@ def test_multiply():
     C = C[:, :, None] * np.ones(10, dtype=int)[None, None, :]
     data = np.ones_like(R).astype(float)
     sw = Sparse3D(data, R, C, (50, 50))
-    sw.multiply(10)
+    new = sw.multiply(10)
+    assert ((sw.data * 10) == new.data).all()
 
 
 @pytest.fixture

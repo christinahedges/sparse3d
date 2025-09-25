@@ -23,7 +23,6 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         row: np.ndarray,
         col: np.ndarray,
         imshape: Tuple[int, int],
-        **kwargs,
     ) -> None:
         """
         Initialize a Sparse3D instance with 3D dense data.
@@ -123,6 +122,17 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
 
         self._index1 = np.vstack(self.subdepth).ravel()
         self._set_data()
+
+    def multiply(self, other):
+        """Returns a matrix with the same sparsity structure as self,
+        but with different data. By default the index arrays are copied.
+        """
+        return Sparse3D(
+            data=self.subdata * other,
+            row=self.subrow,
+            col=self.subcol,
+            imshape=self.imshape,
+        )
 
     def __repr__(self):
         return f"<{(*self.imshape, self.nsubimages)} Sparse3D array of type {self.dtype}>"
