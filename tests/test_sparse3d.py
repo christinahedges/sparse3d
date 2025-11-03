@@ -4,7 +4,7 @@ import pytest
 from scipy import sparse
 
 # First-party/Local
-from sparse3d import ROISparse3D, Sparse3D
+from sparse3d import ROISparse3D, Sparse3D, stack
 
 
 def test_sparse3d():
@@ -25,6 +25,14 @@ def test_sparse3d():
     assert len(sw.data) == 300
     assert sw.data.sum() == 300
     assert sw.dtype == float
+    sw2 = stack([sw, sw])
+    assert sw2.imshape == (50, 50)
+    assert sw2.shape == sw2.cooshape == (2500, 20)
+    assert sw2.subshape == (*R.shape[:2], R.shape[-1] * 2)
+    assert isinstance(sw2, sparse.coo_matrix)
+    assert len(sw2.data) == 600
+    assert sw2.data.sum() == 600
+    assert sw2.dtype == float
 
     # Move data out of frame
     sw = Sparse3D(data, R + 50, C, (50, 50))
@@ -44,6 +52,16 @@ def test_sparse3d():
     assert isinstance(sw.dot(np.ones(10)), np.ndarray)
     assert sw.dot(np.ones(10)).sum() == 300
 
+    # imcorner allowed but no flux through it
+    sw = Sparse3D(data, R, C, (50, 50), imcorner=(200, 200))
+    assert sw.imshape == (50, 50)
+    assert sw.shape == sw.cooshape == (2500, 10)
+    assert sw.subshape == R.shape
+    assert isinstance(sw, sparse.coo_matrix)
+    assert len(sw.data) == 0
+    assert sw.data.sum() == 0
+    assert sw.dtype == float
+
 
 def test_roisparse3d():
     R, C = np.mgrid[:20, :20]
@@ -54,39 +72,69 @@ def test_roisparse3d():
     data = np.random.normal(0, 1, size=R.shape) ** 0
 
     sw = ROISparse3D(
-        data,
-        R,
-        C,
+        data.transpose([2, 1, 0]),
+        R.transpose([2, 1, 0]),
+        C.transpose([2, 1, 0]),
         imshape=(50, 50),
         nROIs=3,
         ROI_size=(10, 10),
         ROI_corners=[(0, 0), (10, 40), (40, 41)],
     )
+    assert sw.shape[1] == 10
     assert sw.imshape == (50, 50)
     assert sw.ROI_size == (10, 10)
-    assert sw.shape == sw.cooshape == (2500, 20)
-    assert sw.subshape == R.shape
+    assert sw.shape == sw.cooshape == (2500, 10)
+    assert sw.subshape == R.transpose([2, 1, 0]).shape
     assert isinstance(sw, sparse.coo_matrix)
     #    assert len(sw.data) == 370
     #    assert sw.data.sum() == 370
     assert sw.dtype == float
+    sw2 = stack([sw, sw])
+    assert sw2.shape[1] == 20
+    assert sw2.imshape == (50, 50)
+    assert sw2.ROI_size == (10, 10)
+    assert sw2.shape == sw2.cooshape == (2500, 20)
+    assert sw2.subshape == (
+        *R.transpose([2, 1, 0]).shape[:2],
+        R.transpose([2, 1, 0]).shape[-1] * 2,
+    )
+    assert isinstance(sw2, sparse.coo_matrix)
+    #    assert len(sw.data) == 370
+    #    assert sw.data.sum() == 370
+    assert sw2.dtype == float
 
-    assert sw.dot(np.ones(20)).shape == (3, 1, 10, 10)
-    assert isinstance(sw.dot(np.ones(20)), np.ndarray)
-    assert np.prod(sw.tocsr().dot(np.ones(20)).shape) == np.prod(sw.imshape)
+    assert isinstance(sw.to_Sparse3D(), Sparse3D)
+
+    assert sw.dot(np.ones(10)).shape == (3, 10, 10)
+    assert isinstance(sw.dot(np.ones(10)), np.ndarray)
+    assert np.prod(sw.tocsr().dot(np.ones(10)).shape) == np.prod(sw.imshape)
 
     # translate the data away everything should be zero:
     sw.translate((-150, -150))
-    assert sw.dot(np.ones(20)).shape == (3, 1, 10, 10)
-    assert isinstance(sw.dot(np.ones(20)), np.ndarray)
-    assert sw.dot(np.ones(20)).sum() == 0
-    assert sw.tocsr().dot(np.ones(20)).sum() == 0
+    assert sw.dot(np.ones(10)).shape == (3, 10, 10)
+    assert isinstance(sw.dot(np.ones(10)), np.ndarray)
+    assert sw.dot(np.ones(10)).sum() == 0
+    assert sw.tocsr().dot(np.ones(10)).sum() == 0
 
     sw.reset()
-    assert sw.dot(np.ones(20)).shape == (3, 1, 10, 10)
-    assert isinstance(sw.dot(np.ones(20)), np.ndarray)
-    assert sw.dot(np.ones(20)).sum() != 0
-    assert sw.tocsr().dot(np.ones(20)).sum() != 0
+    assert sw.dot(np.ones(10)).shape == (3, 10, 10)
+    assert isinstance(sw.dot(np.ones(10)), np.ndarray)
+    assert sw.dot(np.ones(10)).sum() != 0
+    assert sw.tocsr().dot(np.ones(10)).sum() != 0
+
+    # imcorner allowed but no flux through it
+    sw = ROISparse3D(
+        data.transpose([2, 1, 0]),
+        R.transpose([2, 1, 0]),
+        C.transpose([2, 1, 0]),
+        imshape=(50, 50),
+        nROIs=3,
+        ROI_size=(10, 10),
+        ROI_corners=[(0, 0), (10, 40), (40, 41)],
+        imcorner=(200, 200),
+    )
+    assert sw.dot(np.ones(10)).sum() == 0
+    assert sw.tocsr().dot(np.ones(10)).sum() == 0
 
 
 def test_multiply():

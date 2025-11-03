@@ -11,4 +11,4 @@ def get_version():
 
 __version__ = get_version()
 
-from .sparse3d import ROISparse3D, Sparse3D  # noqa: F401, E402
+from .sparse3d import ROISparse3D, Sparse3D, stack  # noqa: F401, E402

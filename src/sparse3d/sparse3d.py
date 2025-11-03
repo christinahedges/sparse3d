@@ -23,6 +23,7 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         row: np.ndarray,
         col: np.ndarray,
         imshape: Tuple[int, int],
+        imcorner: Tuple[int, int] = (0, 0),
     ) -> None:
         """
         Initialize a Sparse3D instance with 3D dense data.
@@ -66,6 +67,8 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
             A 3D array indicating the column indices of non-zero elements, with shape `(nrows, ncols, n sub images)`.
         imshape : tuple of int
             A tuple `(row, column)` defining the shape of the larger, sparse image.
+        imcorner : tuple of int
+            A tuple `(row, column)` defining the corner of the larger, sparse image. Defaults to (0, 0)
 
         Raises
         ------
@@ -76,6 +79,9 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         if not np.all([row.ndim == 3, col.ndim == 3, data.ndim == 3]):
             raise ValueError("Pass a 3D array (nrow, ncol, nsubimages)")
         self.nsubimages = data.shape[-1]
+        self.imshape = imshape
+        self.imcorner = imcorner
+
         if not np.all(
             [
                 row.shape[-1] == self.nsubimages,
@@ -83,8 +89,8 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
             ]
         ):
             raise ValueError("Must have the same 3rd dimension (nsubimages).")
-        self.subrow = row.astype(int)
-        self.subcol = col.astype(int)
+        self.subrow = row.astype(int) + self.imcorner[0]
+        self.subcol = col.astype(int) + self.imcorner[1]
         self.subdepth = (
             np.arange(row.shape[-1], dtype=int)[None, None, :]
             * np.ones(row.shape, dtype=int)[:, :, None]
@@ -94,7 +100,6 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         # We use this mask repeatedly so we calculate once on initialization.
         self._kz = self.subdata != 0
 
-        self.imshape = imshape
         self.subshape = row.shape
         self.cooshape = (np.prod([*self.imshape[:2]]), self.nsubimages)
         self.coord = (0, 0)
@@ -368,6 +373,22 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         self.eliminate_zeros()
         return
 
+    def to_ROISparse3D(
+        self,
+        nROIs: int,
+        ROI_size: Tuple[int, int],
+        ROI_corners: List[Tuple[int, int]],
+    ) -> "ROISparse3D":
+        return ROISparse3D(
+            data=self.subdata,
+            row=self.subdata,
+            col=self.subcol,
+            nROIs=nROIs,
+            ROI_size=ROI_size,
+            ROI_corners=ROI_corners,
+            imshape=self.imshape,
+        )
+
 
 class ROISparse3D(Sparse3D):
     """Special version of a Sparse3D matrix which only populates and works with data within Regions of Interest."""
@@ -458,9 +479,11 @@ class ROISparse3D(Sparse3D):
         self.nROIs = nROIs
         self.ROI_size = ROI_size
         self.ROI_corners = ROI_corners
-        self.imcorner = imcorner
+        # self.imcorner = imcorner
         self.get_ROI_mask = self._parse_ROIS(nROIs, ROI_size, ROI_corners)
-        super().__init__(data=data, row=row, col=col, imshape=imshape)
+        super().__init__(
+            data=data, row=row, col=col, imshape=imshape, imcorner=imcorner
+        )
 
     def _parse_ROIS(self, nROIs: int, ROI_size: tuple, ROI_corners: list):
         """Method checks the ROI inputs are allowable. Returns a function to obtain the boolean mask describing the ROIs"""
@@ -522,7 +545,7 @@ class ROISparse3D(Sparse3D):
             where n is the length of the second dimension of `other`.
             This will always be a 4D dataset.
         """
-
+        ndim = other.ndim
         if isinstance(other, np.ndarray):
             other = sparse.csr_matrix(other).T
         if not sparse.issparse(other):
@@ -550,4 +573,78 @@ class ROISparse3D(Sparse3D):
             array[rdx, :, k.reshape(self.ROI_size)] = sparse_array[
                 idx[k]
             ].toarray()  # ).reshape(self.ROI_size))
+        if ndim == 1:
+            return array[:, 0, :, :]
         return array
+
+    def to_Sparse3D(self):
+        return Sparse3D(
+            data=self.subdata,
+            row=self.subrow,
+            col=self.subcol,
+            imshape=self.imshape,
+            imcorner=self.imcorner,
+        )
+
+
+def _stack_Sparse3d(arrays: List[Sparse3D]) -> Sparse3D:
+    imshapes = set([ar.imshape for ar in arrays])
+    if not len(imshapes) == 1:
+        raise ValueError(
+            "Can only stack `Sparse3D` instances with the same `imshape`."
+        )
+
+    def _stack(arrays):
+        return np.vstack([ar.transpose([2, 0, 1]) for ar in arrays]).transpose(
+            [1, 2, 0]
+        )
+
+    return Sparse3D(
+        data=_stack([ar.subdata for ar in arrays]),
+        row=_stack([ar.subrow - arrays[0].imcorner[0] for ar in arrays]),
+        col=_stack([ar.subcol - arrays[0].imcorner[1] for ar in arrays]),
+        imshape=arrays[0].imshape,
+        imcorner=arrays[0].imcorner,
+    )
+
+
+def _stack_ROISparse3d(arrays: List[Sparse3D]) -> ROISparse3D:
+    for checkname in ["imshape", "nROIs", "ROI_size"]:
+        check = set([getattr(ar, checkname) for ar in arrays])
+        if not len(check) == 1:
+            raise ValueError(
+                f"Can only stack `Sparse3D` instances with the same `{checkname}`."
+            )
+
+    corners0 = arrays[0].ROI_corners
+    corners1 = [l for ar in arrays[1:] for l in ar.ROI_corners]
+    check = set(list(corners0)) - set(list(corners1))
+    if not len(check) == 0:
+        raise ValueError(
+            "Can only stack `Sparse3D` instances with the same `ROI_corner`'s."
+        )
+
+    def _stack(arrays):
+        return np.vstack([ar.transpose([2, 0, 1]) for ar in arrays]).transpose(
+            [1, 2, 0]
+        )
+
+    return ROISparse3D(
+        data=_stack([ar.subdata for ar in arrays]),
+        row=_stack([ar.subrow - arrays[0].imcorner[0] for ar in arrays]),
+        col=_stack([ar.subcol - arrays[0].imcorner[1] for ar in arrays]),
+        imshape=arrays[0].imshape,
+        imcorner=arrays[0].imcorner,
+        nROIs=arrays[0].nROIs,
+        ROI_size=arrays[0].ROI_size,
+        ROI_corners=arrays[0].ROI_corners,
+    )
+
+
+def stack(arrays: List[Sparse3D]):
+    if np.all([isinstance(ar, ROISparse3D) for ar in arrays]):
+        return _stack_ROISparse3d(arrays)
+    elif np.all([isinstance(ar, Sparse3D) for ar in arrays]):
+        return _stack_Sparse3d(arrays)
+    else:
+        raise ValueError("Input arrays must be the same data type.")
