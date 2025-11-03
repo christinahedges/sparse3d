@@ -593,10 +593,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/sparse3d/sparse3d.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">396</span>
 <span class="normal">397</span>
 <span class="normal">398</span>
 <span class="normal">399</span>
@@ -787,7 +784,13 @@
 <span class="normal">584</span>
 <span class="normal">585</span>
 <span class="normal">586</span>
-<span class="normal">587</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ROISparse3D</span><span class="p">(</span><span class="n">Sparse3D</span><span class="p">):</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ROISparse3D</span><span class="p">(</span><span class="n">Sparse3D</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Special version of a Sparse3D matrix which only populates and works with data within Regions of Interest.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -907,6 +910,9 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">imshape</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">nsubimages</span><span class="p">)</span><span class="si">}</span><span class="s2"> ROISparse3D array of type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nROIs</span><span class="si">}</span><span class="s2"> Regions of Interest&gt;&quot;</span>
 
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
     <span class="c1"># def _get_submask(self, offset=(0, 0)):</span>
     <span class="c1">#     # find where the data is within the array bounds</span>
     <span class="c1">#     kr = ((self.subrow + offset[0]) &lt; self.imshape[0]) &amp; (</span>
@@ -1025,13 +1031,7 @@ to match the original image shape with an added dimension for multi-dimensional 
 
             <details class="quote">
               <summary>Source code in <code>src/sparse3d/sparse3d.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">532</span>
 <span class="normal">533</span>
 <span class="normal">534</span>
 <span class="normal">535</span>
@@ -1077,7 +1077,13 @@ to match the original image shape with an added dimension for multi-dimensional 
 <span class="normal">575</span>
 <span class="normal">576</span>
 <span class="normal">577</span>
-<span class="normal">578</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the dot product with another array.</span>
 
