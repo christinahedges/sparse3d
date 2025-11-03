@@ -33,6 +33,14 @@ def test_sparse3d():
     assert len(sw2.data) == 600
     assert sw2.data.sum() == 600
     assert sw2.dtype == float
+    sw2 = sw[:, :, 1]
+    assert sw2.imshape == (50, 50)
+    assert sw2.shape == sw2.cooshape == (2500, 1)
+    assert sw2.subshape == (*R.shape[:2], 1)
+    assert isinstance(sw2, sparse.coo_matrix)
+    assert len(sw2.data) == 30
+    assert sw2.data.sum() == 30
+    assert sw2.dtype == float
 
     # Move data out of frame
     sw = Sparse3D(data, R + 50, C, (50, 50))
@@ -65,6 +73,33 @@ def test_sparse3d():
     sw = Sparse3D(data, R, C, imshape=(2048, 2048), imcorner=(-1024, -1024))
     assert sw.dot(np.ones(10))[1000:1050, 1000:1050].sum() > 1
     assert sw.dot(np.ones(10))[100:150, 100:150].sum() == 0
+
+    R, C = np.meshgrid(
+        np.arange(-2, 3).astype(int),
+        np.arange(-2, 4).astype(int),
+        indexing="ij",
+    )
+    locations = np.random.uniform(-1024, 1024, size=(2, 100)).astype(int)
+    R = R[:, :, None] + locations[0][None, None, :]
+    C = C[:, :, None] + locations[1][None, None, :]
+    data = np.ones_like(R).astype(float)
+
+    sw = Sparse3D(data, R, C, imshape=(2048, 2048), imcorner=(-1024, -1024))
+    a = sw.dot(np.ones(100))
+    b = stack(
+        [
+            Sparse3D(
+                data[:, :, idx][:, :, None],
+                R[:, :, idx][:, :, None],
+                C[:, :, idx][:, :, None],
+                imshape=(2048, 2048),
+                imcorner=(-1024, -1024),
+            )
+            for idx in range(100)
+        ]
+    ).dot(np.ones(100))
+
+    assert (a - b).sum() == 0
 
 
 def test_roisparse3d():

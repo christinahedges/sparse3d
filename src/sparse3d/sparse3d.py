@@ -142,6 +142,9 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
     def __repr__(self):
         return f"<{(*self.imshape, self.nsubimages)} Sparse3D array of type {self.dtype}>"
 
+    def __len__(self):
+        return self.shape[-1]
+
     def tocoo(self):
         """Returns a COO matrix built from this Sparse3D instance."""
         return sparse.coo_matrix(
@@ -510,6 +513,9 @@ class ROISparse3D(Sparse3D):
     def __repr__(self):
         return f"<{(*self.imshape, self.nsubimages)} ROISparse3D array of type {self.dtype}, {self.nROIs} Regions of Interest>"
 
+    def __len__(self):
+        return self.shape[-1]
+
     # def _get_submask(self, offset=(0, 0)):
     #     # find where the data is within the array bounds
     #     kr = ((self.subrow + offset[0]) < self.imshape[0]) & (
@@ -601,8 +607,8 @@ def _stack_Sparse3d(arrays: List[Sparse3D]) -> Sparse3D:
 
     return Sparse3D(
         data=_stack([ar.subdata for ar in arrays]),
-        row=_stack([ar.subrow - arrays[0].imcorner[0] for ar in arrays]),
-        col=_stack([ar.subcol - arrays[0].imcorner[1] for ar in arrays]),
+        row=_stack([ar.subrow + arrays[0].imcorner[0] for ar in arrays]),
+        col=_stack([ar.subcol + arrays[0].imcorner[1] for ar in arrays]),
         imshape=arrays[0].imshape,
         imcorner=arrays[0].imcorner,
     )
@@ -631,8 +637,8 @@ def _stack_ROISparse3d(arrays: List[Sparse3D]) -> ROISparse3D:
 
     return ROISparse3D(
         data=_stack([ar.subdata for ar in arrays]),
-        row=_stack([ar.subrow - arrays[0].imcorner[0] for ar in arrays]),
-        col=_stack([ar.subcol - arrays[0].imcorner[1] for ar in arrays]),
+        row=_stack([ar.subrow + arrays[0].imcorner[0] for ar in arrays]),
+        col=_stack([ar.subcol + arrays[0].imcorner[1] for ar in arrays]),
         imshape=arrays[0].imshape,
         imcorner=arrays[0].imcorner,
         nROIs=arrays[0].nROIs,
