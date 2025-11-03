@@ -62,6 +62,10 @@ def test_sparse3d():
     assert sw.data.sum() == 0
     assert sw.dtype == float
 
+    sw = Sparse3D(data, R, C, imshape=(2048, 2048), imcorner=(-1024, -1024))
+    assert sw.dot(np.ones(10))[1000:1050, 1000:1050].sum() > 1
+    assert sw.dot(np.ones(10))[100:150, 100:150].sum() == 0
+
 
 def test_roisparse3d():
     R, C = np.mgrid[:20, :20]

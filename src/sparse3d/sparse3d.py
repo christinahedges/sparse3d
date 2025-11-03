@@ -89,8 +89,8 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
             ]
         ):
             raise ValueError("Must have the same 3rd dimension (nsubimages).")
-        self.subrow = row.astype(int) + self.imcorner[0]
-        self.subcol = col.astype(int) + self.imcorner[1]
+        self.subrow = row.astype(int) - self.imcorner[0]
+        self.subcol = col.astype(int) - self.imcorner[1]
         self.subdepth = (
             np.arange(row.shape[-1], dtype=int)[None, None, :]
             * np.ones(row.shape, dtype=int)[:, :, None]
