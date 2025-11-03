@@ -593,28 +593,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/sparse3d/sparse3d.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">393</span>
 <span class="normal">394</span>
 <span class="normal">395</span>
 <span class="normal">396</span>
@@ -774,7 +753,41 @@
 <span class="normal">550</span>
 <span class="normal">551</span>
 <span class="normal">552</span>
-<span class="normal">553</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ROISparse3D</span><span class="p">(</span><span class="n">Sparse3D</span><span class="p">):</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ROISparse3D</span><span class="p">(</span><span class="n">Sparse3D</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Special version of a Sparse3D matrix which only populates and works with data within Regions of Interest.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -863,9 +876,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nROIs</span> <span class="o">=</span> <span class="n">nROIs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ROI_size</span> <span class="o">=</span> <span class="n">ROI_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ROI_corners</span> <span class="o">=</span> <span class="n">ROI_corners</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">imcorner</span> <span class="o">=</span> <span class="n">imcorner</span>
+        <span class="c1"># self.imcorner = imcorner</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_ROI_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_ROIS</span><span class="p">(</span><span class="n">nROIs</span><span class="p">,</span> <span class="n">ROI_size</span><span class="p">,</span> <span class="n">ROI_corners</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">imshape</span><span class="o">=</span><span class="n">imshape</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">imshape</span><span class="o">=</span><span class="n">imshape</span><span class="p">,</span> <span class="n">imcorner</span><span class="o">=</span><span class="n">imcorner</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_parse_ROIS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nROIs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ROI_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">ROI_corners</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Method checks the ROI inputs are allowable. Returns a function to obtain the boolean mask describing the ROIs&quot;&quot;&quot;</span>
@@ -927,7 +942,7 @@
 <span class="sd">            where n is the length of the second dimension of `other`.</span>
 <span class="sd">            This will always be a 4D dataset.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
+        <span class="n">ndim</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">ndim</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">sparse</span><span class="o">.</span><span class="n">issparse</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
@@ -955,7 +970,18 @@
             <span class="n">array</span><span class="p">[</span><span class="n">rdx</span><span class="p">,</span> <span class="p">:,</span> <span class="n">k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ROI_size</span><span class="p">)]</span> <span class="o">=</span> <span class="n">sparse_array</span><span class="p">[</span>
                 <span class="n">idx</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
             <span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>  <span class="c1"># ).reshape(self.ROI_size))</span>
+        <span class="k">if</span> <span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
         <span class="k">return</span> <span class="n">array</span>
+
+    <span class="k">def</span> <span class="nf">to_Sparse3D</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Sparse3D</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">subdata</span><span class="p">,</span>
+            <span class="n">row</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">subrow</span><span class="p">,</span>
+            <span class="n">col</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">subcol</span><span class="p">,</span>
+            <span class="n">imshape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">imshape</span><span class="p">,</span>
+            <span class="n">imcorner</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">imcorner</span><span class="p">,</span>
+        <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -999,30 +1025,7 @@ to match the original image shape with an added dimension for multi-dimensional 
 
             <details class="quote">
               <summary>Source code in <code>src/sparse3d/sparse3d.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span>
-<span class="normal">507</span>
-<span class="normal">508</span>
-<span class="normal">509</span>
-<span class="normal">510</span>
-<span class="normal">511</span>
-<span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">526</span>
 <span class="normal">527</span>
 <span class="normal">528</span>
 <span class="normal">529</span>
@@ -1049,7 +1052,32 @@ to match the original image shape with an added dimension for multi-dimensional 
 <span class="normal">550</span>
 <span class="normal">551</span>
 <span class="normal">552</span>
-<span class="normal">553</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the dot product with another array.</span>
 
@@ -1071,7 +1099,7 @@ to match the original image shape with an added dimension for multi-dimensional 
 <span class="sd">        where n is the length of the second dimension of `other`.</span>
 <span class="sd">        This will always be a 4D dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
+    <span class="n">ndim</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">ndim</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">other</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">sparse</span><span class="o">.</span><span class="n">issparse</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
@@ -1099,6 +1127,8 @@ to match the original image shape with an added dimension for multi-dimensional 
         <span class="n">array</span><span class="p">[</span><span class="n">rdx</span><span class="p">,</span> <span class="p">:,</span> <span class="n">k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ROI_size</span><span class="p">)]</span> <span class="o">=</span> <span class="n">sparse_array</span><span class="p">[</span>
             <span class="n">idx</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
         <span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>  <span class="c1"># ).reshape(self.ROI_size))</span>
+    <span class="k">if</span> <span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
     <span class="k">return</span> <span class="n">array</span>
 </code></pre></div></td></tr></table></div>
             </details>
