@@ -593,14 +593,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/sparse3d/sparse3d.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span>
-<span class="normal">403</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">403</span>
 <span class="normal">404</span>
 <span class="normal">405</span>
 <span class="normal">406</span>
@@ -790,7 +783,26 @@
 <span class="normal">590</span>
 <span class="normal">591</span>
 <span class="normal">592</span>
-<span class="normal">593</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ROISparse3D</span><span class="p">(</span><span class="n">Sparse3D</span><span class="p">):</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ROISparse3D</span><span class="p">(</span><span class="n">Sparse3D</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Special version of a Sparse3D matrix which only populates and works with data within Regions of Interest.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -926,6 +938,18 @@
     <span class="c1">#     # )</span>
     <span class="c1">#     return kr &amp; kc &amp; self._kz  # &amp; kroi</span>
 
+    <span class="k">def</span> <span class="nf">_new_s3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_data</span><span class="p">,</span> <span class="n">new_row</span><span class="p">,</span> <span class="n">new_col</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convenience function to return a new version of this class&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">new_data</span><span class="p">,</span>
+            <span class="n">row</span><span class="o">=</span><span class="n">new_row</span><span class="p">,</span>
+            <span class="n">col</span><span class="o">=</span><span class="n">new_col</span><span class="p">,</span>
+            <span class="n">imshape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">imshape</span><span class="p">,</span>
+            <span class="n">nROIs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nROIs</span><span class="p">,</span>
+            <span class="n">ROI_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ROI_size</span><span class="p">,</span>
+            <span class="n">ROI_corners</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ROI_corners</span><span class="p">,</span>
+        <span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the dot product with another array.</span>
@@ -1031,26 +1055,7 @@ to match the original image shape with an added dimension for multi-dimensional 
 
             <details class="quote">
               <summary>Source code in <code>src/sparse3d/sparse3d.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">551</span>
 <span class="normal">552</span>
 <span class="normal">553</span>
 <span class="normal">554</span>
@@ -1083,7 +1088,26 @@ to match the original image shape with an added dimension for multi-dimensional 
 <span class="normal">581</span>
 <span class="normal">582</span>
 <span class="normal">583</span>
-<span class="normal">584</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the dot product with another array.</span>
 
