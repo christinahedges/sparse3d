@@ -132,11 +132,10 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         """Returns a matrix with the same sparsity structure as self,
         but with different data. By default the index arrays are copied.
         """
-        return Sparse3D(
-            data=self.subdata * other,
-            row=self.subrow,
-            col=self.subcol,
-            imshape=self.imshape,
+        return self._new(
+            new_data=self.subdata * other,
+            new_row=self.subrow,
+            new_col=self.subcol,
         )
 
     def __repr__(self):
@@ -154,6 +153,12 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
     def copy(self):
         """Returns a deepcopy of self."""
         return deepcopy(self)
+
+    def _new(self, new_data, new_row, new_col):
+        """Convenience function to return a new version of this class"""
+        return self.__class__(
+            data=new_data, row=new_row, col=new_col, imshape=self.imshape
+        )
 
     def __getitem__(self, index):
         """
@@ -206,9 +211,7 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
             raise IndexError("The last index must be an integer or a slice.")
 
         # Create a new Sparse3D instance with the sliced data
-        return self.__class__(
-            data=new_data, row=new_row, col=new_col, imshape=self.imshape
-        )
+        return self._new(new_data=new_data, new_row=new_row, new_col=new_col)
 
     def dot(self, other: np.ndarray) -> np.ndarray:
         """
@@ -528,6 +531,18 @@ class ROISparse3D(Sparse3D):
     #     #     axis=0
     #     # )
     #     return kr & kc & self._kz  # & kroi
+
+    def _new(self, new_data, new_row, new_col):
+        """Convenience function to return a new version of this class"""
+        return self.__class__(
+            data=new_data,
+            row=new_row,
+            col=new_col,
+            imshape=self.imshape,
+            nROIs=self.nROIs,
+            ROI_size=self.ROI_size,
+            ROI_corners=self.ROI_corners,
+        )
 
     def dot(self, other):
         """

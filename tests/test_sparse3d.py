@@ -175,6 +175,10 @@ def test_roisparse3d():
     assert sw.dot(np.ones(10)).sum() == 0
     assert sw.tocsr().dot(np.ones(10)).sum() == 0
 
+    assert isinstance(sw, ROISparse3D)
+    assert isinstance(sw.multiply(np.ones(sw.shape[1])), ROISparse3D)
+    assert isinstance(sw[:, :, 0], ROISparse3D)
+
 
 def test_multiply():
     R, C = np.meshgrid(
