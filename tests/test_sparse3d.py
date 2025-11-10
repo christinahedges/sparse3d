@@ -178,6 +178,7 @@ def test_roisparse3d():
     assert isinstance(sw, ROISparse3D)
     assert isinstance(sw.multiply(np.ones(sw.shape[1])), ROISparse3D)
     assert isinstance(sw[:, :, 0], ROISparse3D)
+    assert isinstance(sw + sw, ROISparse3D)
 
 
 def test_multiply():

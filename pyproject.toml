@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sparse3d"
-version = "1.2.4"
+version = "1.2.5"
 description = ""
 authors = ["Christina Hedges <christina.l.hedges@nasa.gov>"]
 packages = [{include = "sparse3d", from = "src"}]

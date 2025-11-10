@@ -53,11 +53,10 @@ class Sparse3DMathMixin:
                     "Modulo by zero encountered in Sparse3D modulo."
                 )
             new_data = self.subdata % other.subdata
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
 
         elif np.isscalar(other) | isinstance(other, np.ndarray):
@@ -65,11 +64,10 @@ class Sparse3DMathMixin:
                 raise ZeroDivisionError("Modulo by zero is not allowed.")
             # Apply modulo operation to each non-zero element
             new_data = self.subdata % other
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         else:
             return NotImplemented
@@ -104,19 +102,17 @@ class Sparse3DMathMixin:
         if isinstance(other, self.__class__):
             new_data = self.subdata > other.subdata
             self._check_other_matrix_is_same_shape(other)
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             new_data = self.subdata > other
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         else:
             return NotImplemented
@@ -145,19 +141,17 @@ class Sparse3DMathMixin:
         if isinstance(other, self.__class__):
             new_data = self.subdata > other.subdata
             self._check_other_matrix_is_same_shape(other)
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             new_data = self.subdata > other
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         else:
             return NotImplemented
@@ -186,19 +180,17 @@ class Sparse3DMathMixin:
         if isinstance(other, self.__class__):
             new_data = self.subdata <= other.subdata
             self._check_other_matrix_is_same_shape(other)
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             new_data = self.subdata <= other
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         else:
             return NotImplemented
@@ -227,19 +219,17 @@ class Sparse3DMathMixin:
         if isinstance(other, self.__class__):
             new_data = self.subdata < other.subdata
             self._check_other_matrix_is_same_shape(other)
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             new_data = self.subdata < other
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         else:
             return NotImplemented
@@ -268,19 +258,17 @@ class Sparse3DMathMixin:
         if isinstance(other, self.__class__):
             new_data = self.subdata == other.subdata
             self._check_other_matrix_is_same_shape(other)
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             new_data = self.subdata == other
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         else:
             return NotImplemented
@@ -310,19 +298,17 @@ class Sparse3DMathMixin:
         if isinstance(other, self.__class__):
             new_data = self.subdata != other.subdata
             self._check_other_matrix_is_same_shape(other)
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             new_data = self.subdata != other
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         else:
             return NotImplemented
@@ -351,21 +337,19 @@ class Sparse3DMathMixin:
             If the `row`, `col`, `imshape`, or `subshape` attributes do not match between the instances.
         """
         if isinstance(other, self.__class__):
-            data = self.subdata + other.subdata
+            new_data = self.subdata + other.subdata
             self._check_other_matrix_is_same_shape(other)
-            return self.__class__(
-                data=data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
-            data = self.subdata + other
-            return self.__class__(
-                data=data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            new_data = self.subdata + other
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         else:
             return NotImplemented
@@ -396,19 +380,17 @@ class Sparse3DMathMixin:
         if isinstance(other, self.__class__):
             new_data = self.subdata * other.subdata
             self._check_other_matrix_is_same_shape(other)
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             new_data = self.subdata * other
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         else:
             return NotImplemented
@@ -460,11 +442,10 @@ class Sparse3DMathMixin:
                     "Division by zero encountered in Sparse3D division."
                 )
             new_data = self.subdata / other.subdata
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         elif np.isscalar(other) | isinstance(other, np.ndarray):
             if np.isscalar(other):
@@ -475,24 +456,22 @@ class Sparse3DMathMixin:
                     raise ZeroDivisionError("Division by zero is not allowed.")
             # Divide each non-zero element by a scalar
             new_data = self.subdata / other
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         else:
             return NotImplemented
 
     def __sub__(self, other):
         if isinstance(other, self.__class__):
-            data = self.subdata - other.subdata
+            new_data = self.subdata - other.subdata
             self._check_other_matrix_is_same_shape(other)
-            return self.__class__(
-                data=data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         else:
             return self.__add__(-other)
@@ -532,11 +511,10 @@ class Sparse3DMathMixin:
             print(other)
             # Subtract self.data from other, effectively computing `other - self`
             new_data = other - self.subdata
-            return self.__class__(
-                data=new_data,
-                row=self.subrow,
-                col=self.subcol,
-                imshape=self.imshape,
+            return self._new_s3d(
+                new_data=new_data,
+                new_row=self.subrow,
+                new_col=self.subcol,
             )
         return NotImplemented
 
