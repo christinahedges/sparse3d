@@ -260,6 +260,8 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
                 .reshape((*self.imshape, nt))
                 .transpose([2, 0, 1])
             )
+        if hasattr(other, "unit"):
+            return result * other.unit
         return result
 
     def _index(self, offset=(0, 0)):
