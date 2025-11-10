@@ -384,7 +384,7 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
     ) -> "ROISparse3D":
         return ROISparse3D(
             data=self.subdata,
-            row=self.subdata,
+            row=self.subrow,
             col=self.subcol,
             nROIs=nROIs,
             ROI_size=ROI_size,
