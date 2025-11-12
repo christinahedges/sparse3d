@@ -157,7 +157,11 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
     def _new_s3d(self, new_data, new_row, new_col):
         """Convenience function to return a new version of this class"""
         return self.__class__(
-            data=new_data, row=new_row, col=new_col, imshape=self.imshape
+            data=new_data,
+            row=new_row,
+            col=new_col,
+            imshape=self.imshape,
+            imcorner=self.imcorner,
         )
 
     def __getitem__(self, index):
@@ -543,6 +547,7 @@ class ROISparse3D(Sparse3D):
             row=new_row,
             col=new_col,
             imshape=self.imshape,
+            imcorner=self.imcorner,
             nROIs=self.nROIs,
             ROI_size=self.ROI_size,
             ROI_corners=self.ROI_corners,
