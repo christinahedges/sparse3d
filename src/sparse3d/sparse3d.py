@@ -159,7 +159,7 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         return self.__class__(
             data=new_data,
             row=new_row + self.imcorner[0],
-            col=new_col + self.imcorner[0],
+            col=new_col + self.imcorner[1],
             imshape=self.imshape,
             imcorner=self.imcorner,
         )
