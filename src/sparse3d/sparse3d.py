@@ -93,7 +93,7 @@ class Sparse3D(Sparse3DMathMixin, sparse.coo_matrix):
         self.subcol = col.astype(int) - self.imcorner[1]
         self.subdepth = (
             np.arange(row.shape[-1], dtype=int)[None, None, :]
-            * np.ones(row.shape, dtype=int)[:, :, None]
+            * np.ones(row.shape[:2], dtype=int)[:, :, None]
         )
         # The data for the sub images. We can not overwrite `self.data`, which is property of the COO matrix.
         self.subdata = data

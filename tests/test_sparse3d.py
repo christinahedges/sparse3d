@@ -180,6 +180,12 @@ def test_roisparse3d():
     assert isinstance(sw[:, :, 0], ROISparse3D)
     assert isinstance(sw + sw, ROISparse3D)
 
+    s = (*R.shape[1:], R.shape[0])
+    assert sw.subrow.shape == s
+    assert sw.subcol.shape == s
+    assert sw.subdata.shape == s
+    assert sw.subdepth.shape == s
+
 
 def test_multiply():
     R, C = np.meshgrid(
