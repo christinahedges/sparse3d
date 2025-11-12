@@ -101,6 +101,21 @@ def test_sparse3d():
 
     assert (a - b).sum() == 0
 
+    s = R.shape
+    assert sw.subrow.shape == s
+    assert sw.subcol.shape == s
+    assert sw.subdata.shape == s
+    assert sw.subdepth.shape == s
+
+    sw2 = sw._new_s3d(
+        new_data=sw.subdata,
+        new_row=sw.subrow,
+        new_col=sw.subcol,
+    )
+    assert (sw2.subrow == sw.subrow).all()
+    assert (sw2.subcol == sw.subcol).all()
+    assert (sw2.subdata == sw.subdata).all()
+
 
 def test_roisparse3d():
     R, C = np.mgrid[:20, :20]
@@ -185,6 +200,15 @@ def test_roisparse3d():
     assert sw.subcol.shape == s
     assert sw.subdata.shape == s
     assert sw.subdepth.shape == s
+
+    sw2 = sw._new_s3d(
+        new_data=sw.subdata,
+        new_row=sw.subrow,
+        new_col=sw.subcol,
+    )
+    assert (sw2.subrow == sw.subrow).all()
+    assert (sw2.subcol == sw.subcol).all()
+    assert (sw2.subdata == sw.subdata).all()
 
 
 def test_multiply():
