@@ -672,9 +672,16 @@ def _stack_ROISparse3d(arrays: List[Sparse3D]) -> ROISparse3D:
 
 
 def stack(arrays: List[Sparse3D]):
-    if np.all([isinstance(ar, ROISparse3D) for ar in arrays]):
-        return _stack_ROISparse3d(arrays)
-    elif np.all([isinstance(ar, Sparse3D) for ar in arrays]):
-        return _stack_Sparse3d(arrays)
+    if not isinstance(arrays, List):
+        raise ValueError("Pass a list of arrays")
+    if len(arrays) == 0:
+        raise ValueError("No arrays to stack")
+    elif len(arrays) == 1:
+        return arrays[0]
     else:
-        raise ValueError("Input arrays must be the same data type.")
+        if np.all([isinstance(ar, ROISparse3D) for ar in arrays]):
+            return _stack_ROISparse3d(arrays)
+        elif np.all([isinstance(ar, Sparse3D) for ar in arrays]):
+            return _stack_Sparse3d(arrays)
+        else:
+            raise ValueError("Input arrays must be the same data type.")
